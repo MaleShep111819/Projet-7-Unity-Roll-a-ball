@@ -32,6 +32,16 @@ public class PlayerController : MonoBehaviour
         rb.AddForce(movement * speed);
    }
 
+private void onCollisionEnter(Collision collision)
+{ 
+    if (collision.gameObject.CompareTag("Enemy"))
+    {
+        
+        // Destroy the current object
+        Destroy(gameObject);
+
+    }
+}
    private void OnTriggerEnter(Collider other)
     {
         if (other.gameObject.CompareTag("PickUp")) 

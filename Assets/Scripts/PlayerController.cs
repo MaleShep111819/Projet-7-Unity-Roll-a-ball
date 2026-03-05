@@ -21,6 +21,9 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent <Rigidbody>();
         count = 0;
 
+        //Detection was not working if no input. This is a fix.
+        rb.AddForce (Vector3.one);
+
         SetCountText();
         winTextObject.SetActive(false);
     }
@@ -39,6 +42,8 @@ public class PlayerController : MonoBehaviour
         if (count >= 12)
        {
            winTextObject.SetActive(true);
+
+           Destroy(GameObject.FindGameObjectWithTag("Enemy"));
        }
    }
 
@@ -48,6 +53,18 @@ public class PlayerController : MonoBehaviour
 
         rb.AddForce(movement * speed);
    }
+
+       private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy"))
+        {
+            // Destroy the current object
+            Destroy(gameObject); 
+            // Update the winText to display "You Lose!"
+            winTextObject.gameObject.SetActive(true);
+            winTextObject.GetComponent<TextMeshProUGUI>().text = "You Lose!";
+        }
+    }
 
    private void OnTriggerEnter(Collider other)
     {
